@@ -17,7 +17,7 @@ uses
 type
 
 
-  [MVCPath('/api')]
+  [MVCPath('/api/v1')]
   TProductManagerController = class(TMVCController)
 
   private
@@ -40,7 +40,7 @@ type
     {This endpoints confirms the service is indeed active}
     [MVCPath('/isactive')]
     [MVCHTTPMethod([httpGET])]
-    [MVCProduces(TMVCMediaType.TEXT_PLAIN)]
+    [MVCProduces(TMVCMediaType.APPLICATION_JSON)]
     procedure GetIsActive();
 
     [MVCPath('/products')]
@@ -53,15 +53,16 @@ type
 
     [MVCPath('/create')]
     [MVCHTTPMethod([httpPOST])]
-    function CreateProduct([MVCFromBody] AProduct: TProductVO): IMVCResponse;
+    procedure CreateProduct;
 
-    [MVCPath('/update/')]
+    [MVCPath('/update/($ID)')]
     [MVCHTTPMethod([httpPUT])]
-    function UpdateProduct([MVCFromBody] AProduct: TProductVO): IMVCResponse;
+    procedure UpdateProduct(ID: Integer);
 
     [MVCPath('/delete/($ID)')]
     [MVCHTTPMethod([httpDELETE])]
-    function DeleteProduct(ID: Integer): IMVCResponse;
+    procedure DeleteProduct(ID: Integer);
+
 
   end;
 
@@ -137,44 +138,67 @@ begin
   Result := FProductServices.GetById(ID);
 end;
 
-function TProductManagerController.CreateProduct([MVCFromBody] AProduct: TProductVO): IMVCResponse;
+
+procedure TProductManagerController.CreateProduct;
+var
+  lProduct: TProductVO;
 begin
-  if FProductServices.CreateProduct(AProduct) then
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.Created)
-      .Body(AProduct)
-      .Build
-  else
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.BadRequest)
-      .Body('Failed to create product')
-      .Build;
+  lProduct := Context.Request.BodyAs<TProductVO>;
+
+  try
+    if FProductServices.CreateProduct(lProduct) then
+      begin
+        Render(HTTP_STATUS.Created, 'Product Created')
+      end
+    else
+      begin
+        Render(HTTP_STATUS.InternalServerError, 'Internal Server Error');
+      end;
+
+  finally
+
+  end;
 end;
 
-function TProductManagerController.UpdateProduct([MVCFromBody] AProduct: TProductVO): IMVCResponse;
+
+procedure TProductManagerController.UpdateProduct(ID: Integer);
+var
+  lProduct: TProductVO;
 begin
-  if FProductServices.UpdateProduct(AProduct) then
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.NoContent)
-      .Build
-  else
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.NotFound)
-      .Body('Product not found')
-      .Build;
+  lProduct := Context.Request.BodyAs<TProductVO>;
+  lProduct.Id := ID;
+
+  try
+    if FProductServices.UpdateProduct(lProduct) then
+      begin
+        Render(HTTP_STATUS.OK, 'OK')
+      end
+    else
+      begin
+        Render(HTTP_STATUS.InternalServerError, 'Internal Server Error');
+      end;
+
+  finally
+
+  end;
 end;
 
-function TProductManagerController.DeleteProduct(ID: Integer): IMVCResponse;
+
+procedure TProductManagerController.DeleteProduct(ID: Integer);
 begin
-  if FProductServices.DeleteProduct(ID) then  // Use FProductServices instance
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.NoContent)
-      .Build
-  else
-    Result := MVCResponseBuilder
-      .StatusCode(HTTP_STATUS.NotFound)
-      .Body('Product not found')
-      .Build;
+  try
+    if FProductServices.DeleteProduct(ID) then
+      begin
+        Render(HTTP_STATUS.OK, 'OK')
+      end
+    else
+      begin
+        Render(HTTP_STATUS.InternalServerError, 'Internal Server Error');
+      end;
+
+  finally
+
+  end;
 end;
 
 

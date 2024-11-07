@@ -3,6 +3,7 @@ unit Backend.Model.ProductRepository;
 interface
 
 uses
+  System.SysUtils,
   System.Generics.Collections,
   FireDAC.Comp.Client,
   Data.DB,
@@ -98,7 +99,7 @@ end;
 function TProductRepository.CreateProduct(const AProduct: TProduct): Boolean;
 const
   INSERT_SQL = 'INSERT INTO Product (name, price, description, manufacturer) ' +
-               'VALUES (:name, :price, :description, :manufacturer) RETURNING id';
+               'VALUES (:name, :price, :description, :manufacturer)';
 var
   lDM: TDMConn;
 begin
