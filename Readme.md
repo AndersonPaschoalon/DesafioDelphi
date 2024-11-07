@@ -21,7 +21,7 @@ Para criação da base de dados, disponibilizei um script SQL com as Queries par
 
 ```
 psql -Upostgres
-```  
+```
 
 Em seguida, recomendo executar comando a comando contido no arquivo sql.
 
@@ -40,12 +40,17 @@ Em termos de arquitetura, as classes desse componente todas estão contidas no n
 
 
 A API REST Suporta as seguintes operações:
+
 	- **`GetAllProducts`**
+	
 		`GET`: `/api/v1/products`
 		Parâmetros:
+
 		> Sem Parâmetros
+
 		Resposta Esperada:
-		```
+
+```
 		[
 			{
 				"id": 1,
@@ -70,13 +75,20 @@ A API REST Suporta as seguintes operações:
 			},
 			...
 		]
-		```
+```
+
+
 	- **`GetProduct`**
+
 		`GET`: `/api/v1/product/${ID}`
+
 		Parâmetros:
+
 		- `${ID}`: ID do produto;
+
 		Resposta Esperada:
-		```
+
+```
 		{
 			"id": 2,
 			"name": "Banana",
@@ -84,30 +96,42 @@ A API REST Suporta as seguintes operações:
 			"description": "Fruta",
 			"manufacturer": "Fazenda Barranco"
 		}
-		```
+```
+
 		
 	- **`CreateProduct`**
+
 		`POST`: `/api/v1/create
+
 		Parâmetros:
+
 		- Body:
-		```
+
+```
 			{
 				"name": "Queijo",
 				"price": 5.13,
 				"description": "Laticinio",
 				"manufacturer": "Fazenda do Queijo"
 			}
-		```
+```
+
 		- Headers: `Content-Type:application/json`
+
 		Resposta Esperada:
-		```
+
+```
 		Product Created
-		```
+```
 
 	- **`UpdateProduct`**
+	
 		`POST`: `/api/v1/update/${id}
+
 		Parâmetros:
+
 		- Body:
+
 		```
 			{
 				"name": "Inga",
@@ -116,17 +140,24 @@ A API REST Suporta as seguintes operações:
 				"manufacturer": "Fazenda Indaiatuba"
 			}
 		```
+
 		- Headers: `Content-Type:application/json`
 		Resposta Esperada:
+
 		```
 		OK
-		```		
+		```
 
 	- **`DeleteProduct`**
+
 		`POST`: `/api/v1/delete/${id}
+
 		Parâmetros:
+
 		- `${ID}`: ID do produto;
+
 		Resposta Esperada:
+
 		```
 		OK
 		```		
