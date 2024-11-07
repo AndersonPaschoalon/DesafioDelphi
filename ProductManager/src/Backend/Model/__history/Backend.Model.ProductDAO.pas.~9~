@@ -1,0 +1,60 @@
+unit Backend.Model.ProductDAO;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Data.DB,
+  Backend.Services.IProductServices,
+  Backend.Model.Product,
+  Backend.Model.DataModule,
+  Backend.Data.vo.v1.ProductVO;
+
+
+type
+  TProductDAO = class
+      public
+        constructor Create;
+        destructor Destroy; override;
+        function GetAll(): TObjectList<TProductVO>;
+  end;
+
+
+implementation
+
+
+function TProductDAO.GetAll(): TObjectList<TProductVO>;
+const
+  SELECT_ALL = 'SELECT * FROM Product ORDER BY id';
+var
+  lProduct: TProduct;
+  lListProducts: TObjectList<TProduct>;
+  lDM: TDMConn;
+  lDataSet: TDataSet;
+begin
+  lDM := TDMConn.Create(nil);
+
+  try
+    lDM.FDConn.ExecSQL(SELECT_ALL, lDataSet);
+
+    while not lDataSet.Eof do
+    begin
+       lProduct := lDataSet.Create;
+
+       lProduct.Id           := lDataSet.FieldByName('id').AsInteger;
+       lProduct.Name         := lDataSet.FieldByName('name').AsString;
+       lProduct.Manufacturer := lDataSet.FieldByName('manufacturer').AsString;
+       lProduct.Price        := lDataSet.FieldByName('price').AsFloat;
+       lProduct.Description  := lDataSet.FieldByName('description').AsString;
+
+       lListProducts.Add(lProduct);
+       lDataSet.Next;
+    end;
+
+  finally
+    lDM.Free;
+    lDataSet.Free;
+  end;
+
+end;
+

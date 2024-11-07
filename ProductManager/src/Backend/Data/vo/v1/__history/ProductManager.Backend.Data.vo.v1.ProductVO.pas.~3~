@@ -1,0 +1,40 @@
+unit ProductManager.Backend.Data.vo.v1.ProductVO;
+
+uses
+  MVCFramework;
+
+interface
+
+type
+  [MVCNameCase(ncCamelCase)]
+  TProductVO = class
+  private
+    fId: Int64;
+    fName: String;
+    fPrice: Double;
+    fDescription: String;
+    fManufacturer: String;
+  public
+    property Id: Int64 read fId write fId;
+    property Name: String read fName write fName;
+    property Price: Double read fPrice write fPrice;
+    property Description: String read fDescription write fDescription;
+    property Manufacturer: String read fManufacturer write fManufacturer;
+
+    constructor Create(Id: Int64; Name: String; Price: Double; Description: String; Manufacturer: String);
+  end;
+
+implementation
+
+constructor TProductVO.Create(Id: Int64; Name: String; Price: Double; Description: String; Manufacturer: String);
+begin
+  inherited Create;
+  fId := Id;
+  fName := Name;
+  fPrice := Price;
+  fDescription := Description;
+  fManufacturer := Manufacturer;
+end;
+
+end.
+

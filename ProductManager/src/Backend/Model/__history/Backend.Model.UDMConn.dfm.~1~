@@ -1,0 +1,18 @@
+object DataModule1: TDataModule1
+  Height = 480
+  Width = 640
+  object Product_db_connectionConnection: TFDConnection
+    Params.Strings = (
+      'ConnectionDef=product_db_connection')
+    LoginPrompt = False
+    Left = 154
+    Top = 70
+  end
+  object ProductTable: TFDQuery
+    Connection = Product_db_connectionConnection
+    SQL.Strings = (
+      'SELECT * FROM product')
+    Left = 154
+    Top = 118
+  end
+end

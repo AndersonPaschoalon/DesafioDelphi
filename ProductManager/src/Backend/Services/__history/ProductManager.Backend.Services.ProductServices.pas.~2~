@@ -1,0 +1,51 @@
+unit ProductManager.Backend.Services.ProductServices;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Backend.Data.vo.v1.ProductVO;
+
+
+type
+  TProductServices = class
+    public
+    class function GetById(pId: Integer): TProductVO;
+    class function GetAll(): TObjectList<TProductVO>;
+    class function CreateProduct(const AProduct: TProductVO): Boolean;
+    class function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    class function DeleteProduct(pId: Integer): Boolean;
+
+  end;
+
+
+implementation
+
+{ TProductServices }
+
+class function TProductServices.GetById(pId: Integer): TProductVO;
+begin
+  // todo
+end;
+
+class function TProductServices.GetAll: TObjectList<TProductVO>;
+begin
+  // todo
+end;
+
+class function TProductServices.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+  // todo
+end;
+
+class function TProductServices.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+  // todo
+end;
+
+class function TProductServices.DeleteProduct(pId: Integer): Boolean;
+begin
+  // todo
+end;
+
+end.

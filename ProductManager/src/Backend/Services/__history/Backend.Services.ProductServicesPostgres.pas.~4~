@@ -1,0 +1,197 @@
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Backend.Data.vo.v1.ProductVO,
+  Backend.Services.IProductServices;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  private
+    FDMConn: TDMConn;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function GetById(pId: Integer): TProductVO;
+    function GetAll(): TObjectList<TProductVO>;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+implementation
+
+uses
+  System.SysUtils,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Model.UDMConn;
+
+{ TProductServicesPostgres }
+
+constructor TProductServicesPostgres.Create;
+begin
+  FDMConn := TDMConn.Instance;
+end;
+
+destructor TProductServicesPostgres.Destroy;
+begin
+  // Não precisa liberar a instância de FDMConn, pois ela é um Singleton
+  inherited;
+end;
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+var
+  lProduct: TProductVO;
+begin
+  // Implementar a lógica para obter um produto pelo ID
+  lProduct := TProductVO.Create(pId, 'Product ' + IntToStr(pId), 2.5 * pId, 'Product Description', 'Product Manufacturer');
+  Result := lProduct;
+end;
+
+function TProductServicesPostgres.GetAll(): TObjectList<TProductVO>;
+const
+  SELECT_ALL = 'SELECT * FROM Product ORDER BY id';
+var
+  lProduct: TProductVO;
+  lListProducts: TObjectList<TProductVO>;
+  lDataSet: TFDQuery;
+begin
+  lListProducts := TObjectList<TProductVO>.Create;
+  try
+    lDataSet := TFDQuery.Create(nil);
+    try
+      lDataSet.Connection := FDMConn.Connection;
+      lDataSet.SQL.Text := SELECT_ALL;
+      lDataSet.Open;
+      while not lDataSet.Eof do
+      begin
+        lProduct := TProductVO.Create(
+          lDataSet.FieldByName('id').AsInteger,
+          lDataSet.FieldByName('name').AsString,
+          lDataSet.FieldByName('price').AsFloat,
+          lDataSet.FieldByName('description').AsString,
+          lDataSet.FieldByName('manufacturer').AsString
+        );
+        lListProducts.Add(lProduct);
+        lDataSet.Next;
+      end;
+    finally
+      lDataSet.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      // Tratar exceções aqui
+      raise;
+    end;
+  end;
+  Result := lListProducts;
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+  // Implementar a lógica para criar um novo produto
+  Result := True;
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+  // Implementar a lógica para atualizar um produto existente
+  Result := True;
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+  // Implementar a lógica para excluir um produto
+  Result := True;
+end;
+
+
+// Implementar os demais métodos (GetProductById, CreateProduct, UpdateProduct, DeleteProduct)
+
+{
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.SysUtils, System.Generics.Collections,
+  Backend.Services.IProductServices,
+  Backend.Model.Product,
+  Backend.Data.vo.v1.ProductVO;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  public
+    function GetById(pId: Integer): TProductVO;
+    function GetAll(): TObjectList<TProductVO>;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+implementation
+
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+var
+  ProductList: TObjectList<TProduct>;
+  Product: TProduct;
+begin
+  Result := nil;
+  ProductList := TProduct.GetAllProducts;
+  try
+    for Product in ProductList do
+      if Product.Id = pId then
+      begin
+        Result := TProductVO.Create(Product.Id, Product.Name, Product.Price, Product.Description, Product.Manufacturer);
+        Break;
+      end;
+  finally
+    ProductList.Free;
+  end;
+end;
+
+function TProductServicesPostgres.GetAll: TObjectList<TProductVO>;
+var
+  ProductList: TObjectList<TProduct>;
+  ProductVOList: TObjectList<TProductVO>;
+  Product: TProduct;
+begin
+  ProductList := TProduct.GetAllProducts;
+  ProductVOList := TObjectList<TProductVO>.Create(True);
+  try
+    for Product in ProductList do
+      ProductVOList.Add(TProductVO.Create(Product.Id, Product.Name, Product.Price, Product.Description, Product.Manufacturer));
+    Result := ProductVOList;
+  finally
+    ProductList.Free;
+  end;
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para adicionar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para atualizar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+  // Implemente o código para deletar o produto da base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+end.
+
+}

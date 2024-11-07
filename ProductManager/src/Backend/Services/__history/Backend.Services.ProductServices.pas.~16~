@@ -1,0 +1,95 @@
+unit Backend.Services.ProductServices;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Generics.Collections,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Model.ProductRepository,
+  Backend.Services.IProductServices,
+  Backend.Data.vo.v1.ProductVO,
+  Backend.Model.Product;
+
+type
+  TProductServices = class(TInterfacedObject, IProductServices)
+  private
+    fProductRepo: TProductRepository;
+    function ConvertToVO(const AProduct: TProduct): TProductVO;
+  public
+    constructor Create();
+
+    // Implemented method
+    function GetAll: TObjectList<TProductVO>;
+
+    // Methods to be implemented
+    function GetById(pId: Integer): TProductVO;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+
+implementation
+
+function TProductServices.ConvertToVO(const AProduct: TProduct): TProductVO;
+begin
+  Result := TProductVO.Create(
+    AProduct.Id,
+    AProduct.Name,
+    AProduct.Price,
+    AProduct.Description,
+    AProduct.Manufacturer
+  );
+end;
+
+constructor TProductServices.Create();
+begin
+   fProductDAO := TProductRepository.Create;
+end;
+
+function TProductServices.GetAll: TObjectList<TProductVO>;
+var
+  lListProd: TObjectList<TProduct>;
+  lProduct: TProduct;
+  lProductVO: TProductVO;
+  i: Integer;
+begin
+  Result := TObjectList<TProductVO>.Create(True);
+  lListProd := TProductRepository.GetAll;
+  try
+    for i := 0 to lListProd.Count - 1 do
+    begin
+      lProduct := lListProd[i];
+      lProductVO := ConvertToVO(lProduct);
+      Result.Add(lProductVO);
+    end;
+  finally
+    lListProd.Free;
+  end;
+end;
+
+function TProductServices.GetById(pId: Integer): TProductVO;
+begin
+
+end;
+
+function TProductServices.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServices.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServices.DeleteProduct(pId: Integer): Boolean;
+begin
+
+end;
+
+
+end.

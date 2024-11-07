@@ -1,0 +1,86 @@
+unit Backend.Services.ProductServicesMock;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Backend.Services.IProductServices,
+  Backend.Data.vo.v1.ProductVO;
+
+
+type
+  TProductServicesMock = class(TInterfacedObject, IProductServices)
+    public
+      function GetById(pId: Integer): TProductVO;
+      function GetAll(): TObjectList<TProductVO>;
+      function CreateProduct(const AProduct: TProductVO): Boolean;
+      function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+      function DeleteProduct(pId: Integer): Boolean;
+      constructor Create;
+  end;
+
+
+implementation
+
+{ TProductServices }
+
+constuctor TProductServicesMock.Create;
+begin
+end;
+
+function TProductServicesMock.GetById(pId: Integer): TProductVO;
+var
+  lProductVo: TObjectList<TProductVO>;
+begin
+  lProductVo := GetAll();
+  try
+    Result := lProductVo.ExtractAt(pId mod lProductVo.Count)
+  finally
+
+  end;
+end;
+
+function TProductServicesMock.GetAll(): TObjectList<TProductVO>;
+var
+  lProductVo: TObjectList<TProductVO>;
+begin
+  lProductVo := TObjectList<TProductVO>.Create(True);
+  try
+    lProductVo.Add(TProductVO.Create(1, 'Abacate', 1.0, 'Fruta', 'Fazenda Ametista'));
+    lProductVo.Add(TProductVO.Create(2, 'Banana', 1.0, 'Fruta', 'Fazenda Barranco'));
+    lProductVo.Add(TProductVO.Create(3, 'Carambola', 1.0, 'Fruta', 'Fazenda Cavalo'));
+    lProductVo.Add(TProductVO.Create(4, 'Damasco', 1.0, 'Fruta', 'Fazenda Da Avó'));
+    lProductVo.Add(TProductVO.Create(5, 'Espinafre', 1.0, 'Verdura', 'Fazenda Esmeralda'));
+    lProductVo.Add(TProductVO.Create(6, 'Goiaba', 1.0, 'Fruta', 'Fazenda Goiás'));
+    Result := lProductVo;
+  except
+    lProductVo.Free;
+    raise;
+  end;
+end;
+
+function TProductServicesMock.CreateProduct(const AProduct: TProductVO): Boolean;
+var
+  lResult : Boolean;
+begin
+  lResult := True;
+  Result := lResult;
+end;
+
+function TProductServicesMock.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+var
+  lResult : Boolean;
+begin
+  lResult := True;
+  Result := lResult;
+end;
+
+function TProductServicesMock.DeleteProduct(pId: Integer): Boolean;
+var
+  lResult : Boolean;
+begin
+  lResult := True;
+  Result := lResult;
+end;
+
+end.

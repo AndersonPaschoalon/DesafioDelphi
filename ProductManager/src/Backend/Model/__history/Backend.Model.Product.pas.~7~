@@ -1,0 +1,72 @@
+unit Backend.Model.Product;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  System.Generics.Collections,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Model.UDMConn;
+
+type
+  TProduct = class
+  private
+    FId: Integer;
+    FName: string;
+    FPrice: Double;
+    FDescription: string;
+    FManufacturer: string;
+  public
+    // Propriedades
+    property Id: Integer read FId write FId;
+    property Name: string read FName write FName;
+    property Price: Double read FPrice write FPrice;
+    property Description: string read FDescription write FDescription;
+    property Manufacturer: string read FManufacturer write FManufacturer;
+
+    // Métodos
+    class function GetAllProducts(): TObjectList<TProduct>;
+  end;
+
+implementation
+
+class function TProduct.GetAllProducts: TObjectList<TProduct>;
+const
+  SELECT_ALL = 'SELECT * FROM Product ORDER BY Id';
+var
+  lProduct: TProduct;
+  lListProducts: TObjectList<TProduct>;
+  lDM: TDMConn;
+  lDataSet: TDataSet;
+begin
+  lDM.Create(nil);
+
+  try
+    lDM.Product_db_connectionConnection.ExecSQL(SELECT_ALL, lDataSet);
+    lListProducts := TObjectList<TProduct>.Create;
+
+    while not lDataSet.Eof do
+    begin
+      lProduct := TProduct.Create;
+
+      lProduct.Id := lDataSet.FieldByName('id').AsInteger;
+      lProduct.Name  := lDataSet.FieldByName('name ').AsString;
+      lProduct.Price  := lDataSet.FieldByName('price').AsInteger;
+      lProduct.Description  := lDataSet.FieldByName('description').AsString;
+      lProduct.Manufacturer  := lDataSet.FieldByName('manufacturer ').AsString;
+
+      lListProducts.Add(lProduct);
+      lDataSet.Next;
+    end;
+
+    Result :=  lListProducts
+  finally
+    lDM.Free;
+    lDataSet.Free;
+  end;
+end;
+
+end.

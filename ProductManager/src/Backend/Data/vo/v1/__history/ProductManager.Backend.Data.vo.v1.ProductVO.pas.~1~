@@ -1,0 +1,7 @@
+unit ProductManager.Backend.Data.vo.v1.ProductVO;
+
+interface
+
+implementation
+
+end.

@@ -1,0 +1,68 @@
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.SysUtils, System.Generics.Collections,
+  Backend.Services.IProductServices,
+  Backend.Model.Product,
+  Backend.Data.vo.v1.ProductVO;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  public
+    constructor Create();
+    function GetById(pId: Integer): TProductVO;
+    function GetAll(): TObjectList<TProductVO>;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+implementation
+
+constructor  TProductServicesPostgres.Create();
+begin
+   // todo
+end;
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+begin
+  try
+
+  finally
+
+  end;
+end;
+
+function TProductServicesPostgres.GetAll: TObjectList<TProductVO>;
+
+begin
+  try
+
+  finally
+
+  end;
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para adicionar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para atualizar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+  // Implemente o código para deletar o produto da base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+end.
+
+

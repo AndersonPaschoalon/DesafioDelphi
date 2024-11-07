@@ -1,0 +1,63 @@
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Generics.Collections,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Services.IProductServices,
+  Backend.Data.vo.v1.ProductVO,
+  Backend.Model.Product;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  private
+    FConnection: TFDConnection;
+    function ConvertToVO(const AProduct: TProduct): TProductVO;
+  public
+    constructor Create(AConnection: TFDConnection);
+    destructor Destroy; override;
+
+    // Implemented method
+    function GetAll: TObjectList<TProductVO>;
+
+    // Methods to be implemented
+    function GetById(pId: Integer): TProductVO;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+
+implementation
+
+function TProductServicesPostgres.GetAll: TObjectList<TProductVO>;
+begin
+
+end;
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+begin
+
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+
+end;
+
+
+end.

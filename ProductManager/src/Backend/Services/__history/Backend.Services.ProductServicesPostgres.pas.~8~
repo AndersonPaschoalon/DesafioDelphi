@@ -1,0 +1,86 @@
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.SysUtils, System.Generics.Collections,
+  Backend.Services.IProductServices,
+  Backend.Model.Product,
+  Backend.Data.vo.v1.ProductVO;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  ProductDb: TProductDatabase
+  public
+    constructor Create();
+    function GetById(pId: Integer): TProductVO;
+    function GetAll(): TObjectList<TProductVO>;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+implementation
+
+constructor  TProductServicesPostgres.Create();
+begin
+   ProductDb := TProductDatabase.Create
+end;
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+var
+  ProductList: TObjectList<TProduct>;
+  lProduct: TProduct;
+begin
+  Result := nil;
+  ProductList := ProductDb.GetAllProducts;
+  try
+    for lProduct in ProductList do
+      if lProduct.Id = pId then
+      begin
+        Result := TProductVO.Create(lProduct.Id, lProduct.Name, lProduct.Price, lProduct.Description, lProduct.Manufacturer);
+        Break;
+      end;
+  finally
+    ProductList.Free;
+  end;
+end;
+
+function TProductServicesPostgres.GetAll: TObjectList<TProductVO>;
+var
+  ProductList: TObjectList<TProduct>;
+  ProductVOList: TObjectList<TProductVO>;
+  lProduct: TProduct;
+begin
+  ProductList := ProductDb.GetAllProducts;
+  ProductVOList := TObjectList<TProductVO>.Create(True);
+  try
+    for lProduct in ProductList do
+      ProductVOList.Add(TProductVO.Create(lProduct.Id, lProduct.Name, lProduct.Price, lProduct.Description, lProduct.Manufacturer));
+    Result := ProductVOList;
+  finally
+    ProductList.Free;
+  end;
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para adicionar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+  // Implemente o código para atualizar o produto na base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+  // Implemente o código para deletar o produto da base de dados PostgreSQL.
+  Result := False; // Retornar verdadeiro após implementação
+end;
+
+end.
+
+

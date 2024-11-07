@@ -1,0 +1,96 @@
+unit Backend.Services.ProductServicesPostgres;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Generics.Collections,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Model.ProductDAO,
+  Backend.Services.IProductServices,
+  Backend.Data.vo.v1.ProductVO,
+  Backend.Model.Product;
+
+type
+  TProductServicesPostgres = class(TInterfacedObject, IProductServices)
+  private
+    fProductDAO: TProductDAO;
+    function ConvertToVO(const AProduct: TProduct): TProductVO;
+  public
+    constructor Create();
+    destructor Destroy; override;
+
+    // Implemented method
+    function GetAll: TObjectList<TProductVO>;
+
+    // Methods to be implemented
+    function GetById(pId: Integer): TProductVO;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+
+implementation
+
+function TProductServicesPostgres.ConvertToVO(const AProduct: TProduct): TProductVO;
+begin
+  Result := TProductVO.Create(
+    AProduct.Id,
+    AProduct.Name,
+    AProduct.Price,
+    AProduct.Description,
+    AProduct.Manufacturer
+  );
+end;
+
+constructor TProductServicesPostgres.Create();
+begin
+   fProductDAO := TProductDAO.Create;
+end;
+
+function TProductServicesPostgres.GetAll: TObjectList<TProductVO>;
+var
+  lListProd: TObjectList<TProduct>;
+  lProduct: TProduct;
+  lProductVO: TProductVO;
+  i: Integer;
+begin
+  Result := TObjectList<TProductVO>.Create(True);
+  lListProd := fProductDAO.GetAll;
+  try
+    for i := 0 to lListProd.Count - 1 do
+    begin
+      lProduct := lListProd[i];
+      lProductVO := ConvertToVO(lProduct);
+      Result.Add(lProductVO);
+    end;
+  finally
+    lListProd.Free;
+  end;
+end;
+
+function TProductServicesPostgres.GetById(pId: Integer): TProductVO;
+begin
+
+end;
+
+function TProductServicesPostgres.CreateProduct(const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServicesPostgres.UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+begin
+
+end;
+
+function TProductServicesPostgres.DeleteProduct(pId: Integer): Boolean;
+begin
+
+end;
+
+
+end.

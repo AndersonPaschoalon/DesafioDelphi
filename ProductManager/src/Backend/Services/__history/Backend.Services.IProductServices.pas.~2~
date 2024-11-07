@@ -1,0 +1,31 @@
+unit Backend.Services.IProductServices;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Backend.Data.vo.v1.ProductVO;
+
+type
+  IProductServices = interface
+    ['{F8B48C83-B359-4814-BEAB-6B166FDEFAFD}']
+    function GetById(pId: Integer): TProductVO;
+    function GetAll: TObjectList<TProductVO>;
+    function CreateProduct(const AProduct: TProductVO): Boolean;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean;
+    function DeleteProduct(pId: Integer): Boolean;
+  end;
+
+  TAbstractProductServices = class(TInterfacedObject, IProductServices)
+  public
+    function GetById(pId: Integer): TProductVO; virtual; abstract;
+    function GetAll: TObjectList<TProductVO>; virtual; abstract;
+    function CreateProduct(const AProduct: TProductVO): Boolean; virtual; abstract;
+    function UpdateProduct(pId: Integer; const AProduct: TProductVO): Boolean; virtual; abstract;
+    function DeleteProduct(pId: Integer): Boolean; virtual; abstract;
+  end;
+
+implementation
+
+end.
+

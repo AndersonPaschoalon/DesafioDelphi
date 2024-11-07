@@ -1,0 +1,40 @@
+unit Backend.Model.Product;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  System.Generics.Collections,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Param,
+  Data.DB,
+  Backend.Model.UDMConn;
+
+type
+  TProduct = class
+  Id: Integer;
+
+  public
+    function GetAllProducts(): TObjectList<TProduct>;
+
+end;
+
+implementation
+
+function TProduct.GetAllProducts: TObjectList<TProduct>;
+const
+  SELECT_ALL = 'SELECT * FROM Product ORDER BY Id';
+var
+  lProducts: TProduct;
+  lListaProducts: TObjectList<TProduct>;
+  lDM: TDataModule1;
+beguin
+  lDM := TDataModule1.Create(nil);
+  try
+       lDM.
+  finally
+      lDM.Free;
+  end;
+
+end.
