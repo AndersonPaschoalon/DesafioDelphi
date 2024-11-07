@@ -1,6 +1,6 @@
 # Processo Seletivo Areco Sistema <> Desafio Delphi
 
-## Apresentação
+## Sobre o Projeto
 
 Neste repositório está localizado o código fonte do Desafio Delphi referente ao "Processo Seletivo Areco Sistema".
 
@@ -133,11 +133,12 @@ A API REST Suporta as seguintes operações:
 
 Para facilitar a realização de testes, eu disponibilizei as chamadas de API utilizadas no Postman durante o desenvolvimento. Estão localizadas [neste](./Docs/postman/Delphi.postman_collection.json) arquivo.
 
-## Aplicação Client
+#### Aplicação Client
 
 ![FireDac](./Docs/images/client.jpg) 
 
 Utilitário Client para edição da base. Consome a API REST.
+
 
 ## Requisitos
 
@@ -145,12 +146,13 @@ Utilitário Client para edição da base. Consome a API REST.
 - DelphiMVCFramework_3.4.1-sodium;
 - Delphi 12
 
-### Outros Projetos Pessoais
+
+## Outros Projetos Pessoais
 
 Com realação aos requisitos da vaga, tenho uma ampla experiência em C#, porém este é o meu primeiro contato com Pascal (exceto por livros textos, é claro, rs). Foi um grande desafio, e realmente foi gratificante aprender essa tecnologia! Tomei grande inspiração em um projeto de um curso online na Udemy sobre MVC e REST com SpringBoot que estou cursando. O Código dele está [aqui](https://github.com/AndersonPaschoalon/Online-Courses/tree/master/Udemy/RestWithSpringBootAndJava/Src/RestWithSpringBoot).
 
 Meu principal projeto pessoal é um dos resultados de meu mestrado, a ferramenta "SIMITAR" (SIMITAR: SniffIng ModellIng and TrAffic geneRation).
-É uma gerador de tráfego de rede capaz de emular as caracteristicas estocásticas, da camada de rede e transporte de um tráfego real. Mais sobre [aqui](https://github.com/AndersonPaschoalon/Simitar/tree/master/SIMITAR).
+É uma gerador de tráfego de rede capaz de emular as caracteristicas estocásticas, da camada de rede e transporte de um tráfego real. Mais sobre [aqui](https://github.com/AndersonPaschoalon/Simitar/tree/master/SIMITAR). Neste link tem um resumo de como a aplicação funciona, algumas figuras ilustrativas, e casos de uso. 
 
 Também gosto de desenvolver por hobbie. Dentre estes projetinhos, o que pasticularmente, mais me orgulho é um conteúdo adicional (não oficial, chamados de Mods pela comunidade) que desenvolvi para um dos meus jogos favoritos, Skrim. O código desse projeto está [aqui](https://github.com/AndersonPaschoalon/Skyrim-DSilHand).
 
